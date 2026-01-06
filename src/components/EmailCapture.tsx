@@ -2,20 +2,66 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+const CITIES = [
+  "New York",
+  "Los Angeles",
+  "Chicago",
+  "Houston",
+  "Miami",
+  "London",
+  "Berlin",
+  "Paris",
+  "Toronto",
+  "Sydney",
+  "Tokyo",
+  "Singapore",
+  "Dubai",
+  "Mumbai",
+  "São Paulo",
+];
 
 const EmailCapture = () => {
   const [formData, setFormData] = useState({
     email: "",
     promoting: "",
     country: "",
+    city: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.email) {
-      setSubmitted(true);
+    if (!formData.email) return;
+
+    setIsSubmitting(true);
+
+    const { error } = await supabase
+      .from("waitlist_submissions")
+      .insert({
+        email: formData.email.trim(),
+        promoting: formData.promoting.trim() || null,
+        country: formData.country.trim() || null,
+        city: formData.city || null,
+      });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+      return;
     }
+
+    setSubmitted(true);
   };
 
   if (submitted) {
@@ -70,8 +116,26 @@ const EmailCapture = () => {
             />
           </div>
 
-          <Button type="submit" size="lg" className="w-full h-12">
-            Join the waitlist
+          <div>
+            <Select
+              value={formData.city}
+              onValueChange={(value) => setFormData({ ...formData, city: value })}
+            >
+              <SelectTrigger className="h-12 px-4 bg-card border-border">
+                <SelectValue placeholder="Where should the account be set up? (optional)" />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border">
+                {CITIES.map((city) => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <Button type="submit" size="lg" className="w-full h-12" disabled={isSubmitting}>
+            {isSubmitting ? "Joining..." : "Join the waitlist"}
           </Button>
 
           <p className="text-subtle text-center text-sm">
