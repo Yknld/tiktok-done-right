@@ -1,41 +1,4 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-
 const Hero = () => {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setIsSubmitting(true);
-
-    const { error } = await supabase
-      .from("waitlist_submissions")
-      .insert({
-        email: email.trim(),
-      });
-
-    setIsSubmitting(false);
-
-    if (error) {
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setSubmitted(true);
-  };
-
   return (
     <section className="section-container py-24 md:py-32 lg:py-40">
       <div className="max-w-2xl">
@@ -51,26 +14,19 @@ const Hero = () => {
           TikTok only · Organic posting · No ads
         </p>
 
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md">
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 h-12 px-4 bg-card border-border"
-              required
-            />
-            <Button type="submit" size="lg" className="h-12 px-8" disabled={isSubmitting}>
-              {isSubmitting ? "Joining..." : "Join early access"}
-            </Button>
-          </form>
-        ) : (
-          <div className="bg-accent text-accent-foreground px-6 py-4 rounded-lg max-w-md">
-            <p className="font-medium">You're on the list.</p>
-            <p className="text-sm mt-1 opacity-80">We'll email you when spots open.</p>
-          </div>
-        )}
+        <div className="rounded-lg overflow-hidden bg-card border border-border">
+          <iframe 
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdHZaaJUFc3kZV_Dhz6cS6IPYpCwCRscs4HUxw9Hv2YiSNo7A/viewform?embedded=true" 
+            width="100%" 
+            height="931" 
+            frameBorder="0" 
+            marginHeight={0} 
+            marginWidth={0}
+            className="w-full"
+          >
+            Loading…
+          </iframe>
+        </div>
 
         <p className="text-subtle mt-4">
           We're onboarding a small beta. No payment required.
