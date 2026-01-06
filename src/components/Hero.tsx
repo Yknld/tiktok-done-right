@@ -1,16 +1,39 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Hero = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubmitted(true);
+    if (!email) return;
+
+    setIsSubmitting(true);
+
+    const { error } = await supabase
+      .from("waitlist_submissions")
+      .insert({
+        email: email.trim(),
+      });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+      return;
     }
+
+    setSubmitted(true);
   };
 
   return (
@@ -38,8 +61,8 @@ const Hero = () => {
               className="flex-1 h-12 px-4 bg-card border-border"
               required
             />
-            <Button type="submit" size="lg" className="h-12 px-8">
-              Join early access
+            <Button type="submit" size="lg" className="h-12 px-8" disabled={isSubmitting}>
+              {isSubmitting ? "Joining..." : "Join early access"}
             </Button>
           </form>
         ) : (

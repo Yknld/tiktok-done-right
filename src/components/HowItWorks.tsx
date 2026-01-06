@@ -4,7 +4,7 @@ const steps = [
   {
     icon: UserPlus,
     title: "You sign up",
-    description: "Tell us what you're promoting.",
+    description: "Tell us what you're promoting and select your target city.",
   },
   {
     icon: Flame,
