@@ -14,23 +14,28 @@ const Hero = () => {
           TikTok only · Organic posting · No ads
         </p>
 
-        <div className="rounded-lg overflow-hidden bg-card border border-border">
-          <iframe 
-            src="https://docs.google.com/forms/d/e/1FAIpQLSdHZaaJUFc3kZV_Dhz6cS6IPYpCwCRscs4HUxw9Hv2YiSNo7A/viewform?embedded=true" 
-            width="100%" 
-            height="931" 
-            frameBorder="0" 
-            marginHeight={0} 
-            marginWidth={0}
-            className="w-full"
-          >
-            Loading…
-          </iframe>
+        <div className="rounded-2xl overflow-hidden bg-card border border-border shadow-lg p-6 md:p-8">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
+            Join the waitlist
+          </h2>
+          <div className="rounded-lg overflow-hidden bg-background">
+            <iframe 
+              src="https://docs.google.com/forms/d/e/1FAIpQLSdHZaaJUFc3kZV_Dhz6cS6IPYpCwCRscs4HUxw9Hv2YiSNo7A/viewform?embedded=true" 
+              width="100%" 
+              height="700" 
+              frameBorder="0" 
+              marginHeight={0} 
+              marginWidth={0}
+              className="w-full"
+              title="Waitlist signup form"
+            >
+              Loading…
+            </iframe>
+          </div>
+          <p className="text-subtle text-center text-sm mt-4">
+            We're onboarding a small beta. No payment required.
+          </p>
         </div>
-
-        <p className="text-subtle mt-4">
-          We're onboarding a small beta. No payment required.
-        </p>
       </div>
     </section>
   );
