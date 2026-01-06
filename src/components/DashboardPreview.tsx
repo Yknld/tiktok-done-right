@@ -22,10 +22,14 @@ const DashboardPreview = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
           <div>
             <p className="text-subtle text-xs uppercase tracking-wider mb-1">Platform</p>
             <p className="text-lg font-medium text-foreground">TikTok</p>
+          </div>
+          <div>
+            <p className="text-subtle text-xs uppercase tracking-wider mb-1">Location</p>
+            <p className="text-lg font-medium text-foreground">New York</p>
           </div>
           <div>
             <p className="text-subtle text-xs uppercase tracking-wider mb-1">This week</p>
