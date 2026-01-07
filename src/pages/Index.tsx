@@ -4,7 +4,6 @@ import PainPoint from "@/components/PainPoint";
 import HowItWorks from "@/components/HowItWorks";
 import DashboardPreview from "@/components/DashboardPreview";
 import Pricing from "@/components/Pricing";
-import EmailCapture from "@/components/EmailCapture";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -18,9 +17,6 @@ const Index = () => {
         <DashboardPreview />
         <div id="pricing">
           <Pricing />
-        </div>
-        <div id="waitlist">
-          <EmailCapture />
         </div>
       </main>
       <Footer />
